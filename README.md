@@ -1,4 +1,4 @@
-content = """
+
 # README - CI/CD Docker Compose Setup
 
 Este archivo `docker-compose.yml` configura un entorno completo de CI/CD que incluye **Jenkins**, **SonarQube** y una base de datos **PostgreSQL** para el análisis de calidad de código.
