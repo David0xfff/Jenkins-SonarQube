@@ -1,70 +1,69 @@
-
 # README - CI/CD Docker Compose Setup
 
-Este archivo `docker-compose.yml` configura un entorno completo de CI/CD que incluye **Jenkins**, **SonarQube** y una base de datos **PostgreSQL** para el análisis de calidad de código.
+This `docker-compose.yml` file sets up a complete CI/CD environment that includes **Jenkins**, **SonarQube**, and a **PostgreSQL** database for code quality analysis.
 ---
 
-## **Contenido**
-1. [Servicios incluidos](#servicios-incluidos)
-2. [Requisitos previos](#requisitos-previos)
-3. [Configuración inicial](#configuración-inicial)
-4. [Cómo ejecutar](#cómo-ejecutar)
-5. [Detalles de configuración](#detalles-de-configuración)
-6. [Notas adicionales](#notas-adicionales)
+## **Table of Contents**
+1. [Included Services](#included-services)
+2. [Prerequisites](#prerequisites)
+3. [Initial Setup](#initial-setup)
+4. [How to Run](#how-to-run)
+5. [Configuration Details](#configuration-details)
+6. [Additional Notes](#additional-notes)
 
 ---
 
-## **Servicios incluidos**
+## **Included Services**
 ### **1. Jenkins**
-- Imagen: `jenkins/jenkins:lts`
-- **Descripción:** Jenkins es una herramienta de automatización utilizada para implementar pipelines de CI/CD.
-- **Puertos expuestos:**
-  - `8080`: Interfaz web de Jenkins.
-  - `50000`: Comunicación con agentes esclavos de Jenkins.
-- **Volúmenes:**
-  - `jenkins_home`: Almacena la configuración y datos persistentes de Jenkins.
-  - `/var/run/docker.sock`: Permite que Jenkins controle Docker en el host.
+- Image: `jenkins/jenkins:lts`
+- **Description:** Jenkins is an automation tool used to implement CI/CD pipelines.
+- **Exposed Ports:**
+  - `8080`: Jenkins web interface.
+  - `50000`: Communication with Jenkins agent nodes.
+- **Volumes:**
+  - `jenkins_home`: Stores Jenkins configuration and persistent data.
+  - `/var/run/docker.sock`: Allows Jenkins to manage Docker on the host.
 
 ### **2. SonarQube**
-- Imagen: `sonarqube:latest`
-- **Descripción:** SonarQube es una herramienta para la calidad del código y análisis estático.
-- **Puertos expuestos:**
-  - `9000`: Interfaz web de SonarQube.
-- **Configuración del entorno:**
-  - Base de datos configurada en PostgreSQL.
+- Image: `sonarqube:latest`
+- **Description:** SonarQube is a tool for code quality and static analysis.
+- **Exposed Ports:**
+  - `9000`: SonarQube web interface.
+- **Environment Configuration:**
+  - Configured to use the provided PostgreSQL database.
 
 ### **3. PostgreSQL (DB)**
-- Imagen: `postgres:latest`
-- **Descripción:** Base de datos que respalda SonarQube.
-- **Configuración del entorno:**
-  - Usuario: `sonar`
-  - Contraseña: `sonar`
-  - Base de datos: `sonar`
+- Image: `postgres:latest`
+- **Description:** Database backend for SonarQube.
+- **Environment Configuration:**
+  - User: `sonar`
+  - Password: `sonar`
+  - Database: `sonar`
 
 ---
 
-## **Requisitos previos**
-1. **Docker** y **Docker Compose** instalados en tu máquina.
-   - [Instalar Docker](https://docs.docker.com/get-docker/)
-   - [Instalar Docker Compose](https://docs.docker.com/compose/install/)
-2. Puerto **8080**, **50000**, y **9000** disponibles en el host.
+## **Prerequisites**
+1. **Docker** and **Docker Compose** installed on your machine.
+   - [Install Docker](https://docs.docker.com/get-docker/)
+   - [Install Docker Compose](https://docs.docker.com/compose/install/)
+2. Ports **8080**, **50000**, and **9000** available on the host.
 
 ---
 
-## **Configuración inicial**
-1. **Persistencia de Jenkins:**
-   - El volumen `jenkins_home` asegura que los datos de Jenkins no se pierdan al reiniciar el contenedor.
-2. **Acceso a Docker desde Jenkins:**
-   - La vinculación de `/var/run/docker.sock` permite que Jenkins administre contenedores Docker en el host.
+## **Initial Setup**
+1. **Jenkins Persistence:**
+   - The `jenkins_home` volume ensures that Jenkins data is not lost when the container is restarted.
+2. **Docker Access for Jenkins:**
+   - Binding `/var/run/docker.sock` allows Jenkins to manage Docker containers on the host.
 
-3. **Base de datos PostgreSQL:**
-   - Preconfigurada con credenciales y base de datos necesarias para SonarQube.
+3. **PostgreSQL Database:**
+   - Preconfigured with credentials and database required by SonarQube.
 
 ---
 
-## **Cómo ejecutar**
-1. Clona el repositorio que contiene este archivo `docker-compose.yml` o crea uno.
-2. Navega al directorio donde se encuentra el archivo.
-3. Ejecuta el siguiente comando:
+## **How to Run**
+1. Clone the repository containing this `docker-compose.yml` file or create one.
+2. Navigate to the directory where the file is located.
+3. Run the following command:
    ```bash
    docker-compose up -d
